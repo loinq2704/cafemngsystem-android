@@ -30,12 +30,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {User.class, Order.class, OrderDetail.class, Drink.class}, version = 1, exportSchema = false)
-@TypeConverters({RoleConverter.class, CategoryConverter.class, DateConverter.class})
 public abstract class MyRoomDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
+
     public abstract OrderDao orderDao();
+
     public abstract OrderDetailDao orderDetailDao();
+
     public abstract DrinkDao drinkDao();
 
     private static volatile MyRoomDatabase INSTANCE;
@@ -43,12 +45,12 @@ public abstract class MyRoomDatabase extends RoomDatabase {
 
     public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    public static MyRoomDatabase getDatabase(final Context context){
-        if(INSTANCE == null){
-            synchronized (MyRoomDatabase.class){
-                if(INSTANCE == null){
+    public static MyRoomDatabase getDatabase(final Context context) {
+        if (INSTANCE == null) {
+            synchronized (MyRoomDatabase.class) {
+                if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            MyRoomDatabase.class, "cafemngsystem.sqlite")
+                                    MyRoomDatabase.class, "cafemngsystem.sqlite")
                             .addCallback(sRoomDatabaseCallback)
                             .build();
                 }
@@ -76,22 +78,20 @@ public abstract class MyRoomDatabase extends RoomDatabase {
                 userDao.insert(user1);
                 userDao.insert(user2);
 
-                List<Drink> drinks = new ArrayList<>();
+                Drink[] drinks = new Drink[10];
 
-                drinks.add(new Drink("Signature Espresso", R.drawable.ic_launcher_foreground, 3.00, Category.SIGNATURED));
-                drinks.add(new Drink("Iced Caramel Macchiato", R.drawable.ic_launcher_foreground, 4.50, Category.ICED_COFFEE));
-                drinks.add(new Drink("Vanilla Latte", R.drawable.ic_launcher_foreground, 4.00, Category.SIGNATURED));
-                drinks.add(new Drink("Iced Mocha", R.drawable.ic_launcher_foreground, 4.75, Category.ICED_COFFEE));
-                drinks.add(new Drink("Cappuccino", R.drawable.ic_launcher_foreground, 3.50, Category.SIGNATURED));
-                drinks.add(new Drink("Iced Matcha Latte", R.drawable.ic_launcher_foreground, 5.00, Category.ICED_COFFEE));
-                drinks.add(new Drink("Americano", R.drawable.ic_launcher_foreground, 2.50, Category.SIGNATURED));
-                drinks.add(new Drink("Iced Black Coffee", R.drawable.ic_launcher_foreground, 3.25, Category.ICED_COFFEE));
-                drinks.add(new Drink("Mocha Frappuccino", R.drawable.ic_launcher_foreground, 5.50, Category.ICED_COFFEE));
-                drinks.add(new Drink("Flat White", R.drawable.ic_launcher_foreground, 3.75, Category.SIGNATURED));
+                drinks[0] = new Drink("Signature Espresso", R.drawable.ic_launcher_foreground, 3.00, Category.SIGNATURED);
+                drinks[1] = new Drink("Iced Caramel Macchiato", R.drawable.ic_launcher_foreground, 4.50, Category.ICED_COFFEE);
+                drinks[2] = new Drink("Vanilla Latte", R.drawable.ic_launcher_foreground, 4.00, Category.SIGNATURED);
+                drinks[3] = new Drink("Iced Mocha", R.drawable.ic_launcher_foreground, 4.75, Category.ICED_COFFEE);
+                drinks[4] = new Drink("Cappuccino", R.drawable.ic_launcher_foreground, 3.50, Category.SIGNATURED);
+                drinks[5] = new Drink("Iced Matcha Latte", R.drawable.ic_launcher_foreground, 5.00, Category.ICED_COFFEE);
+                drinks[6] = new Drink("Americano", R.drawable.ic_launcher_foreground, 2.50, Category.SIGNATURED);
+                drinks[7] = new Drink("Iced Black Coffee", R.drawable.ic_launcher_foreground, 3.25, Category.ICED_COFFEE);
+                drinks[8] = new Drink("Mocha Frappuccino", R.drawable.ic_launcher_foreground, 5.50, Category.ICED_COFFEE);
+                drinks[9] = new Drink("Flat White", R.drawable.ic_launcher_foreground, 3.75, Category.SIGNATURED);
 
-                for (Drink drink : drinks) {
-                    drinkDao.insert(drink);
-                }
+                drinkDao.insert(drinks);
             });
         }
     };

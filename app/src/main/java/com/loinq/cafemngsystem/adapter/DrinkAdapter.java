@@ -64,7 +64,6 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
             if (drink == null) return;
             Intent intent = new Intent(view.getContext(), DetailActivity.class);
             intent.putExtra("drink", drink);
-
             context.startActivity(intent);
         }
 

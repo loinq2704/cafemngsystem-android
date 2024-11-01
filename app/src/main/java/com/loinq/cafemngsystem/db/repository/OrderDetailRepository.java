@@ -9,6 +9,9 @@ import com.loinq.cafemngsystem.db.dao.OrderDetailDao;
 import com.loinq.cafemngsystem.db.entity.OrderDetail;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 public class OrderDetailRepository {
     private OrderDetailDao mOrderDetailDao;
@@ -22,10 +25,19 @@ public class OrderDetailRepository {
         return mOrderDetailDao.getAllOrderDetails();
     }
 
-    public void insert(OrderDetail orderDetail) {
-        MyRoomDatabase.databaseWriteExecutor.execute(() -> {
-            mOrderDetailDao.insert(orderDetail);
-        });
+    public long insert(OrderDetail orderDetail) {
+        Callable<Long> insertCallable = () -> mOrderDetailDao.insert(orderDetail);
+        long rowId = -1;
+
+        Future<Long> future = MyRoomDatabase.databaseWriteExecutor.submit(insertCallable);
+        try {
+            rowId = future.get();
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return rowId;
     }
 
     public LiveData<OrderDetail> getOrderDetailById(int detailId) {

@@ -1,31 +1,29 @@
-package com.loinq.cafemngsystem.db.entity;
+package com.loinq.cafemngsystem.dto;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import com.loinq.cafemngsystem.db.entity.enum1.OrderStatus;
 import com.loinq.cafemngsystem.db.helper.DateConverter;
 import com.loinq.cafemngsystem.db.helper.OrderStatusConverter;
 
+import java.io.Serializable;
 import java.util.Date;
 
-@Entity(tableName = "order_table")
-public class Order {
-    @PrimaryKey(autoGenerate = true)
+public class OrderDto implements Serializable {
     private int id;
     private int orderDetailId; // Foreign key reference
-    @TypeConverters(DateConverter.class)
     private Date date;
     private int user; // User identifier
     private String address;
     private String phone;
     private String note;
-    @TypeConverters(OrderStatusConverter.class)
     private OrderStatus orderStatus;
 
-    public Order(int orderDetailId, Date date, int user, String address, String phone, String note, OrderStatus orderStatus) {
+    public OrderDto() {
+    }
+
+    public OrderDto(int id, int orderDetailId, Date date, int user, String address, String phone, String note, OrderStatus orderStatus) {
+        this.id = id;
         this.orderDetailId = orderDetailId;
         this.date = date;
         this.user = user;

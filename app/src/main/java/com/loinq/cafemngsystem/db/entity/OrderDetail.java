@@ -2,9 +2,12 @@ package com.loinq.cafemngsystem.db.entity;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import com.loinq.cafemngsystem.db.entity.enum1.Size;
 import com.loinq.cafemngsystem.db.entity.enum1.Topping;
+import com.loinq.cafemngsystem.db.helper.SizeConverter;
+import com.loinq.cafemngsystem.db.helper.ToppingConverter;
 
 @Entity(tableName = "order_detail")
 public class OrderDetail {
@@ -12,7 +15,9 @@ public class OrderDetail {
     private int id;
     private int drinkId;
     private int quantity;
+    @TypeConverters(SizeConverter.class)
     private Size size;
+    @TypeConverters(ToppingConverter.class)
     private Topping topping;
 
     public OrderDetail(int drinkId, int quantity, Size size, Topping topping) {

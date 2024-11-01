@@ -2,8 +2,10 @@ package com.loinq.cafemngsystem.db.entity;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import com.loinq.cafemngsystem.db.entity.enum1.Category;
+import com.loinq.cafemngsystem.db.helper.CategoryConverter;
 
 @Entity(tableName = "drinks")
 public class Drink {
@@ -12,6 +14,7 @@ public class Drink {
     private String name;
     private int img;
     private double price;
+    @TypeConverters(CategoryConverter.class)
     private Category category;
 
     public Drink(String name, int img, double price, Category category) {

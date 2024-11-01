@@ -25,8 +25,8 @@ public class OrderDetailViewModel extends AndroidViewModel {
         return mAllOrderDetails;
     }
 
-    public void insert(OrderDetail orderDetail) {
-        mRepository.insert(orderDetail);
+    public long insert(OrderDetail orderDetail) {
+        return mRepository.insert(orderDetail);
     }
 
     public LiveData<OrderDetail> getOrderDetailById(int detailId) {

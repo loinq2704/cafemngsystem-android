@@ -84,9 +84,9 @@ public class MainActivity extends AppCompatActivity {
                 DrinkDto drinkDto = new DrinkDto(drink);
                 drinkList.add(drinkDto);
             }
+            DrinkAdapter adapter = new DrinkAdapter(this, drinkList);
+            rcvDrinks.setAdapter(adapter);
+            rcvDrinks.setLayoutManager(new GridLayoutManager(this, 2));
         });
-        DrinkAdapter adapter = new DrinkAdapter(this, drinkList);
-        rcvDrinks.setAdapter(adapter);
-        rcvDrinks.setLayoutManager(new GridLayoutManager(this, 2));
     }
 }
