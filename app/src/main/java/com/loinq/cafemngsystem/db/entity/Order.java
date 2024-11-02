@@ -7,15 +7,18 @@ import androidx.room.TypeConverters;
 
 import com.loinq.cafemngsystem.db.entity.enum1.OrderStatus;
 import com.loinq.cafemngsystem.db.helper.DateConverter;
+import com.loinq.cafemngsystem.db.helper.ListOrderDetailConverter;
 import com.loinq.cafemngsystem.db.helper.OrderStatusConverter;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity(tableName = "order_table")
 public class Order {
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private int orderDetailId; // Foreign key reference
+    @TypeConverters(ListOrderDetailConverter.class)
+    private List<Integer> orderDetailId; // Foreign key reference
     @TypeConverters(DateConverter.class)
     private Date date;
     private int user; // User identifier
@@ -25,7 +28,7 @@ public class Order {
     @TypeConverters(OrderStatusConverter.class)
     private OrderStatus orderStatus;
 
-    public Order(int orderDetailId, Date date, int user, String address, String phone, String note, OrderStatus orderStatus) {
+    public Order(List<Integer> orderDetailId, Date date, int user, String address, String phone, String note, OrderStatus orderStatus) {
         this.orderDetailId = orderDetailId;
         this.date = date;
         this.user = user;
@@ -43,11 +46,11 @@ public class Order {
         this.id = id;
     }
 
-    public int getOrderDetailId() {
+    public List<Integer> getOrderDetailId() {
         return orderDetailId;
     }
 
-    public void setOrderDetailId(int orderDetailId) {
+    public void setOrderDetailId(List<Integer> orderDetailId) {
         this.orderDetailId = orderDetailId;
     }
 
