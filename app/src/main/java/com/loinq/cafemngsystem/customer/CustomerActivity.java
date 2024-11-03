@@ -1,4 +1,4 @@
-package com.loinq.cafemngsystem;
+package com.loinq.cafemngsystem.customer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.loinq.cafemngsystem.adapter.DrinkAdapter;
+import com.loinq.cafemngsystem.R;
+import com.loinq.cafemngsystem.adapter.customer.DrinkAdapter;
 import com.loinq.cafemngsystem.db.entity.Drink;
 import com.loinq.cafemngsystem.db.viewModel.DrinkViewModel;
 import com.loinq.cafemngsystem.dbo.DrinkDto;
@@ -23,7 +24,7 @@ import com.loinq.cafemngsystem.dbo.DrinkDto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class CustomerActivity extends AppCompatActivity {
 
     private RecyclerView rcvDrinks;
 
@@ -52,12 +53,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.history) {
-            Intent intent = new Intent(MainActivity.this, OrderHistoryActivity.class);
+            Intent intent = new Intent(CustomerActivity.this, OrderHistoryActivity.class);
             startActivity(intent);
-        }else if (item.getItemId() == R.id.menu) {
+        }else if (item.getItemId() == R.id.logout_customer) {
 
         }else if (item.getItemId() == R.id.cart) {
-            Intent intent = new Intent(MainActivity.this, CartActivity.class);
+            Intent intent = new Intent(CustomerActivity.this, CartActivity.class);
             startActivity(intent);
         }
 

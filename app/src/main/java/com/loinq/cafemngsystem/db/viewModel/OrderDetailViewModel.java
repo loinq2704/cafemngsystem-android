@@ -40,17 +40,21 @@ public class OrderDetailViewModel extends AndroidViewModel {
         int quantity = orderDetailDto.getQuantity();;
         Size size = orderDetailDto.getSize();
         Topping topping = orderDetailDto.getTopping();
-        OrderDetail orderDetail = new OrderDetail(quantity, size, topping, orderId);
+        OrderDetail orderDetail = new OrderDetail(quantity, size, topping, drink.getId(), orderId);
         orderDetail.setId(id);
         mRepository.update(orderDetail);
     }
 
     public void delete(OrderDetailDto orderDetailDto) {
-        int id = orderDetailDto.getId();
-        mRepository.delete(id);
+        OrderDetail orderDetail = new OrderDetail(orderDetailDto);
+        mRepository.delete(orderDetail);
     }
 
     public LiveData<OrderDetailWithDrink> getOrderDetailById(int detailId) {
         return mRepository.getOrderDetailById(detailId);
+    }
+
+    public LiveData<List<OrderDetailWithDrink>> getOrderDetailListByOrderId(int orderId) {
+        return mRepository.getOrderDetailListByOrderId(orderId);
     }
 }

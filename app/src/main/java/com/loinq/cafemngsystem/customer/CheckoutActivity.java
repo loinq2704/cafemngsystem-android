@@ -1,4 +1,4 @@
-package com.loinq.cafemngsystem;
+package com.loinq.cafemngsystem.customer;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,8 +15,13 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
+import com.loinq.cafemngsystem.R;
+import com.loinq.cafemngsystem.db.entity.Order;
+import com.loinq.cafemngsystem.db.entity.enum1.OrderStatus;
 import com.loinq.cafemngsystem.db.viewModel.OrderViewModel;
 import com.loinq.cafemngsystem.dbo.OrderDto;
+
+import java.util.Date;
 
 public class CheckoutActivity extends AppCompatActivity {
 
@@ -51,15 +56,18 @@ public class CheckoutActivity extends AppCompatActivity {
     private void onBtnCheckoutClick(View view) {
         String orderDtoJson = sharedPreferences.getString("orderDto", "");
         OrderDto orderDto = gson.fromJson(orderDtoJson, OrderDto.class);
-        mOrderViewModel.insert(orderDto);
+        int userId = orderDto.getUser().getId();
+        String address = txtAddress.getText().toString();
+        String phone = txtPhone.getText().toString();
+        String note = txtNote.getText().toString();
+        Order order = new Order(new Date(), userId, address, phone, note, OrderStatus.PENDING);
+        mOrderViewModel.update(order);
         orderDto.setOrderDetails(null);
         editor.putString("orderDto", gson.toJson(orderDto));
         editor.apply();
         Intent intent = new Intent(this, OrderHistoryActivity.class);
         startActivity(intent);
-    }
-
-    ;
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

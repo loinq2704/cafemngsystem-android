@@ -1,15 +1,16 @@
-package com.loinq.cafemngsystem.adapter;
+package com.loinq.cafemngsystem.adapter.customer;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.loinq.cafemngsystem.DrinkDetailActivity;
+import com.loinq.cafemngsystem.customer.DrinkDetailActivity;
 import com.loinq.cafemngsystem.R;
 import com.loinq.cafemngsystem.dbo.DrinkDto;
 
@@ -44,10 +45,12 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        private ImageView imgDrink;
         private TextView txtName;
         private TextView txtPrice;
 
         private void bindingView() {
+            imgDrink = itemView.findViewById(R.id.img_drink);
             txtName = itemView.findViewById(R.id.txtName);
             txtPrice = itemView.findViewById(R.id.txtPrice);
         }
@@ -71,6 +74,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
         }
 
         public void setData(DrinkDto drink) {
+            imgDrink.setImageResource(drink.getImg());
             txtName.setText(drink.getName());
             txtPrice.setText(String.valueOf(drink.getPrice()));
         }

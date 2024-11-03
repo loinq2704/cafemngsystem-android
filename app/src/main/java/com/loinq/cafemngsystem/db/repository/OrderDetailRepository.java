@@ -27,29 +27,23 @@ public class OrderDetailRepository {
     }
 
     public long insert(OrderDetail orderDetail) {
-        Callable<Long> insertCallable = () -> mOrderDetailDao.insert(orderDetail);
-        long rowId = -1;
-
-        Future<Long> future = MyRoomDatabase.databaseWriteExecutor.submit(insertCallable);
-        try {
-            rowId = future.get();
-        } catch (InterruptedException e1) {
-            e1.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return rowId;
+        MyRoomDatabase.databaseWriteExecutor.execute(() -> mOrderDetailDao.insert(orderDetail));
+        return -1;
     }
 
     public void update(OrderDetail orderDetail) {
         MyRoomDatabase.databaseWriteExecutor.execute(() -> mOrderDetailDao.update(orderDetail));
     }
 
-    public void delete(int orderDetail) {
+    public void delete(OrderDetail orderDetail) {
         MyRoomDatabase.databaseWriteExecutor.execute(() -> mOrderDetailDao.delete(orderDetail));
     }
 
     public LiveData<OrderDetailWithDrink> getOrderDetailById(int detailId) {
         return mOrderDetailDao.getOrderDetailById(detailId);
+    }
+
+    public LiveData<List<OrderDetailWithDrink>> getOrderDetailListByOrderId(int orderId) {
+        return mOrderDetailDao.getOrderDetailListByOrderId(orderId);
     }
 }

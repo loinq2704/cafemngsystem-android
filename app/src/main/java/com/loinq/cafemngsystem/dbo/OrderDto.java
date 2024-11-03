@@ -36,15 +36,6 @@ public class OrderDto implements Serializable {
 
     public OrderDto(Order order) {
         this.id = order.getId();
-
-        List<OrderDetailDto> orderDetailDtos = new ArrayList<>();
-        for (Integer orderDetailId : order.getOrderDetailId()) {
-            OrderDetailDto orderDetailDto = new OrderDetailDto();
-            orderDetailDto.setId(orderDetailId);
-            orderDetailDtos.add(orderDetailDto);
-        }
-        this.orderDetail = orderDetailDtos;
-
         this.date = order.getDate();
 
         UserDto userDto = new UserDto();
@@ -64,12 +55,6 @@ public class OrderDto implements Serializable {
         this.phone = order.order.getPhone();
         this.note = order.order.getNote();
         this.orderStatus = order.order.getOrderStatus();
-
-        List<OrderDetailDto> orderDetailDtos = new ArrayList<>();
-        for(OrderDetailWithDrink orderDetail : order.orderDetails){
-            OrderDetailDto orderDetailDto = new OrderDetailDto(orderDetail);
-            orderDetailDtos.add(orderDetailDto);
-        }
     }
 
     public int getId() {

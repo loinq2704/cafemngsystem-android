@@ -1,4 +1,4 @@
-package com.loinq.cafemngsystem.adapter;
+package com.loinq.cafemngsystem.adapter.customer;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
-import com.loinq.cafemngsystem.DrinkDetailActivity;
+import com.loinq.cafemngsystem.customer.DrinkDetailActivity;
 import com.loinq.cafemngsystem.R;
 import com.loinq.cafemngsystem.db.viewModel.OrderDetailViewModel;
 import com.loinq.cafemngsystem.dbo.OrderDetailDto;
@@ -115,6 +115,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
             } else {
                 mOrderDetailViewModel.delete(orderDetail);
                 orderDetailList.remove(getAdapterPosition());
+                updateData();
                 notifyItemRemoved(getAdapterPosition());
                 notifyItemRangeChanged(getAdapterPosition(), orderDetailList.size());
             }

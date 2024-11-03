@@ -1,4 +1,4 @@
-package com.loinq.cafemngsystem.adapter;
+package com.loinq.cafemngsystem.adapter.customer;
 
 import android.content.Context;
 import android.view.LayoutInflater;

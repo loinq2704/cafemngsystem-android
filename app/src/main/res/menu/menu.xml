@@ -3,10 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu"
+        android:id="@+id/logout_customer"
         android:icon="@drawable/ic_action_menu"
-        app:showAsAction="ifRoom"
-        android:title="Menu" />
+        android:title="Logout" />
     <item
         android:id="@+id/cart"
         android:icon="@drawable/ic_action_cart"

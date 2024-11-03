@@ -43,7 +43,6 @@ public class OrderDetailDto implements Serializable {
         this.quantity = orderDetail.orderDetail.getQuantity();
         this.size = orderDetail.orderDetail.getSize();
         this.topping = orderDetail.orderDetail.getTopping();
-
     }
 
     public int getId() {

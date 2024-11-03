@@ -9,6 +9,7 @@ import com.loinq.cafemngsystem.db.entity.enum1.Size;
 import com.loinq.cafemngsystem.db.entity.enum1.Topping;
 import com.loinq.cafemngsystem.db.helper.SizeConverter;
 import com.loinq.cafemngsystem.db.helper.ToppingConverter;
+import com.loinq.cafemngsystem.dbo.OrderDetailDto;
 
 @Entity(tableName = "order_detail",
         foreignKeys = {
@@ -36,6 +37,15 @@ public class OrderDetail {
 
     private int drinkId;
 
+    private int orderId;
+
+    public OrderDetail(OrderDetailDto orderDetailDto) {
+        this.quantity = orderDetailDto.getQuantity();
+        this.size = orderDetailDto.getSize();
+        this.topping = orderDetailDto.getTopping();
+        this.drinkId = orderDetailDto.getDrink().getId();
+    }
+
     public int getDrinkId() {
         return drinkId;
     }
@@ -43,8 +53,6 @@ public class OrderDetail {
     public void setDrinkId(int drinkId) {
         this.drinkId = drinkId;
     }
-
-    private int orderId;
 
     public int getOrderId() {
         return orderId;

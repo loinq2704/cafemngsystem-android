@@ -1,4 +1,4 @@
-package com.loinq.cafemngsystem;
+package com.loinq.cafemngsystem.customer;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,10 +17,12 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
+import com.loinq.cafemngsystem.R;
 import com.loinq.cafemngsystem.db.entity.OrderDetail;
 import com.loinq.cafemngsystem.db.entity.enum1.Size;
 import com.loinq.cafemngsystem.db.entity.enum1.Topping;
 import com.loinq.cafemngsystem.db.viewModel.OrderDetailViewModel;
+import com.loinq.cafemngsystem.db.viewModel.OrderViewModel;
 import com.loinq.cafemngsystem.dbo.DrinkDto;
 import com.loinq.cafemngsystem.dbo.OrderDetailDto;
 import com.loinq.cafemngsystem.dbo.OrderDto;
@@ -55,6 +56,7 @@ public class DrinkDetailActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private Gson gson;
     private OrderDetailViewModel orderDetailViewModel;
+    private OrderViewModel mOrderViewModel;
 
     private void bindingView() {
         imgDink = findViewById(R.id.imgDink);
@@ -76,6 +78,7 @@ public class DrinkDetailActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(APP_NAME, MODE_PRIVATE);
         editor = sharedPreferences.edit();
         orderDetailViewModel = new ViewModelProvider(this).get(OrderDetailViewModel.class);
+        mOrderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
     }
 
     private void bindingAction() {
@@ -125,14 +128,33 @@ public class DrinkDetailActivity extends AppCompatActivity {
         );
         String orderDtoJson = sharedPreferences.getString("orderDto", null);
         OrderDto orderDto = gson.fromJson(orderDtoJson, OrderDto.class);
+        OrderDetail orderDetail1 = new OrderDetail(
+                quantity,
+                orderDetailDto.
+                getSize(),
+                orderDetailDto.getTopping(),
+                orderDetailDto.getDrink().getId(),
+                orderId
+        );
         List<OrderDetailDto> orderDetailDtos;
+        if(orderDto == null){
+            orderDto = new OrderDto();
+        }
         if (orderDto.getOrderDetails() == null) {
+            long orderId = mOrderViewModel.insert(orderDto);
+            orderDto.setId((int) orderId);
+            orderDetail1.setOrderId((int) orderId);
+
             orderDetailDtos = new ArrayList<>();
             orderDetailDtos.add(orderDetailDto);
         } else {
             orderDetailDtos = orderDto.getOrderDetails();
             orderDetailDtos.add(orderDetailDto);
+            orderDetail1.setOrderId(orderDto.getId());
         }
+
+
+        orderDetailViewModel.insert(orderDetail1);
         orderDto.setOrderDetails(orderDetailDtos);
         orderDtoJson = gson.toJson(orderDto);
         editor.putString("orderDto", orderDtoJson);

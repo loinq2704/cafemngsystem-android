@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.loinq.cafemngsystem.customer.CustomerActivity;
 import com.loinq.cafemngsystem.db.entity.enum1.Role;
 import com.loinq.cafemngsystem.db.entity.User;
 import com.loinq.cafemngsystem.db.viewModel.UserViewModel;
@@ -46,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
         String fullname = edtFullname.getText().toString();
         User user = new User(username, password, fullname, Role.USER);
         mUserViewModel.insert(user);
-        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, CustomerActivity.class);
         startActivity(intent);
     }
 

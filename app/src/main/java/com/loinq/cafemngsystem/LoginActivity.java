@@ -16,6 +16,9 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
+import com.loinq.cafemngsystem.admin.AdminActivity;
+import com.loinq.cafemngsystem.customer.CustomerActivity;
+import com.loinq.cafemngsystem.db.entity.enum1.Role;
 import com.loinq.cafemngsystem.db.viewModel.UserViewModel;
 import com.loinq.cafemngsystem.dbo.OrderDto;
 import com.loinq.cafemngsystem.dbo.UserDto;
@@ -54,20 +57,25 @@ public class LoginActivity extends AppCompatActivity {
         mUserViewModel.getByUsername(username).observe(this, user -> {
             if (user != null) {
                 if (user.getPassword().equals(password)) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    String orderJson = mSharedPreferences.getString("orderDto", null);
-                    OrderDto orderDto = gson.fromJson(orderJson, OrderDto.class);
-                    if (orderDto == null) {
-                        orderDto = new OrderDto();
+                    if(user.getRole().equals(Role.ADMIN)){
+                        Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+                        startActivity(intent);
+                    }else{
+                        Intent intent = new Intent(LoginActivity.this, CustomerActivity.class);
+                        String orderJson = mSharedPreferences.getString("orderDto", null);
+                        OrderDto orderDto = gson.fromJson(orderJson, OrderDto.class);
+                        if (orderDto == null) {
+                            orderDto = new OrderDto();
+                        }
+                        UserDto userDto = new UserDto(user);
+                        orderDto.setUser(userDto);
+                        orderJson = gson.toJson(orderDto);
+                        mEditor.putString("orderDto", orderJson);
+                        mEditor.apply();
+                        startActivity(intent);
                     }
-                    UserDto userDto = new UserDto(user);
-                    orderDto.setUser(userDto);
-                    orderJson = gson.toJson(orderDto);
-                    mEditor.putString("orderDto", orderJson);
-                    mEditor.apply();
-                    startActivity(intent);
                 } else {
-                    Toast.makeText(LoginActivity.this, "Sai mật khẩu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Wrong password", Toast.LENGTH_SHORT).show();
                 }
             }
             else {

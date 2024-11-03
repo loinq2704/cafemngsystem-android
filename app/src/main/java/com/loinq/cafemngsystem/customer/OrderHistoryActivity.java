@@ -1,4 +1,4 @@
-package com.loinq.cafemngsystem;
+package com.loinq.cafemngsystem.customer;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
-import com.loinq.cafemngsystem.adapter.OrderAdapter;
+import com.loinq.cafemngsystem.R;
+import com.loinq.cafemngsystem.adapter.customer.OrderAdapter;
 import com.loinq.cafemngsystem.db.dto.OrderWithUserWithOrderDetail;
-import com.loinq.cafemngsystem.db.entity.Order;
 import com.loinq.cafemngsystem.db.viewModel.OrderViewModel;
 import com.loinq.cafemngsystem.dbo.OrderDto;
 
@@ -48,7 +48,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, CustomerActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
             finish();

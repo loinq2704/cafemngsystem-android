@@ -6,7 +6,7 @@
     android:padding="16dp">
 
     <ImageView
-        android:id="@+id/item_image"
+        android:id="@+id/img_drink"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:scaleType="centerCrop"

@@ -1,4 +1,4 @@
-package com.loinq.cafemngsystem.adapter;
+package com.loinq.cafemngsystem.adapter.customer;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -7,12 +7,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.loinq.cafemngsystem.OrderDetailActivity;
+import com.loinq.cafemngsystem.customer.OrderDetailActivity;
 import com.loinq.cafemngsystem.R;
+import com.loinq.cafemngsystem.db.dto.OrderDetailWithDrink;
+import com.loinq.cafemngsystem.db.viewModel.OrderDetailViewModel;
+import com.loinq.cafemngsystem.dbo.OrderDetailDto;
 import com.loinq.cafemngsystem.dbo.OrderDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
@@ -49,11 +55,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         private TextView txtStatus;
         private TextView txtDate;
 
+        private AppCompatActivity context;
+        private OrderDetailViewModel mOrderDetailViewModel;
+
         private void bindingView(View itemView) {
             txtIndex = itemView.findViewById(R.id.textViewOrderIndex);
             txtStatus = itemView.findViewById(R.id.textViewOrderStatus);
             txtDate = itemView.findViewById(R.id.textViewOrderDate);
 
+            context = (AppCompatActivity) itemView.getContext();
+            mOrderDetailViewModel = new ViewModelProvider(context).get(OrderDetailViewModel.class);
         }
 
         private void bindingAction() {
@@ -61,10 +72,17 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         }
 
         private void onClickItem(View view) {
-            Intent intent = new Intent(view.getContext(), OrderDetailActivity.class);
             OrderDto orderDto = orderDtoList.get(getAdapterPosition());
-            intent.putExtra("orderDto", orderDto);
-            view.getContext().startActivity(intent);
+            mOrderDetailViewModel.getOrderDetailListByOrderId(orderDto.getId()).observe(context, orderDetailDto -> {
+                Intent intent = new Intent(view.getContext(), OrderDetailActivity.class);
+                List<OrderDetailDto> orderDetailList = new ArrayList<>();
+                for(OrderDetailWithDrink orderDetail : orderDetailDto) {
+                    orderDetailList.add(new OrderDetailDto(orderDetail));
+                }
+                orderDto.setOrderDetails(orderDetailList);
+                intent.putExtra("orderDto", orderDto);
+                view.getContext().startActivity(intent);
+            });
         }
 
         public ViewHolder(@NonNull View itemView) {

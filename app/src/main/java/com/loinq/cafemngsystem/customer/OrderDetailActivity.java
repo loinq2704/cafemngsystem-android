@@ -1,4 +1,4 @@
-package com.loinq.cafemngsystem;
+package com.loinq.cafemngsystem.customer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.loinq.cafemngsystem.adapter.OrderItemAdapter;
+import com.loinq.cafemngsystem.R;
+import com.loinq.cafemngsystem.adapter.customer.OrderItemAdapter;
 import com.loinq.cafemngsystem.dbo.OrderDetailDto;
 import com.loinq.cafemngsystem.dbo.OrderDto;
 

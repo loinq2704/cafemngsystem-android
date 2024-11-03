@@ -31,14 +31,18 @@ public class OrderViewModel extends AndroidViewModel {
         return mAllOrders;
     }
 
-    public void insert(OrderDto orderDto) {
+    public long insert(OrderDto orderDto) {
 
         String address = orderDto.getAddress();
         int userId = orderDto.getUser().getId();
         String phone = orderDto.getPhone();
         String note = orderDto.getNote();
         Order order = new Order(new Date(), userId, address, phone, note, OrderStatus.PENDING);
-        mRepository.insert(order);
+        return mRepository.insert(order);
+    }
+
+    public void update(Order order) {
+        mRepository.update(order);
     }
 
     public LiveData<List<OrderWithUserWithOrderDetail>> getOrderByUser(int userId) {
