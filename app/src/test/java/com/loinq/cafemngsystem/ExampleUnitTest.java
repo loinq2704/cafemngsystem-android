@@ -1,4 +1,4 @@
-package com.loinq.cafemngsystem;
+package com.group5.cafemngsystem;
 
 import org.junit.Test;
 

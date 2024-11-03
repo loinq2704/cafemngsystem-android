@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.loinq.cafemngsystem"
+    namespace = "com.group5.cafemngsystem"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.loinq.cafemngsystem"
+        applicationId = "com.group5.cafemngsystem"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
