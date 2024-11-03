@@ -5,9 +5,15 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.loinq.cafemngsystem.db.dto.OrderWithUserWithOrderDetail;
 import com.loinq.cafemngsystem.db.entity.Order;
+import com.loinq.cafemngsystem.db.entity.enum1.OrderStatus;
 import com.loinq.cafemngsystem.db.repository.OrderRepository;
+import com.loinq.cafemngsystem.dbo.OrderDetailDto;
+import com.loinq.cafemngsystem.dbo.OrderDto;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class OrderViewModel extends AndroidViewModel {
@@ -25,11 +31,17 @@ public class OrderViewModel extends AndroidViewModel {
         return mAllOrders;
     }
 
-    public void insert(Order order) {
+    public void insert(OrderDto orderDto) {
+
+        String address = orderDto.getAddress();
+        int userId = orderDto.getUser().getId();
+        String phone = orderDto.getPhone();
+        String note = orderDto.getNote();
+        Order order = new Order(new Date(), userId, address, phone, note, OrderStatus.PENDING);
         mRepository.insert(order);
     }
 
-    public LiveData<Order> getOrderById(int orderId) {
-        return mRepository.getOrderById(orderId);
+    public LiveData<List<OrderWithUserWithOrderDetail>> getOrderByUser(int userId) {
+        return mRepository.getOrderByUser(userId);
     }
 }

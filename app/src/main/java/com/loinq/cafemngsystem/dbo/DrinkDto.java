@@ -1,4 +1,4 @@
-package com.loinq.cafemngsystem.dto;
+package com.loinq.cafemngsystem.dbo;
 
 import com.loinq.cafemngsystem.db.entity.Drink;
 import com.loinq.cafemngsystem.db.entity.enum1.Category;

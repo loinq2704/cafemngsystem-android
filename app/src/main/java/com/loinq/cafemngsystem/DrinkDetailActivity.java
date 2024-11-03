@@ -22,19 +22,23 @@ import com.loinq.cafemngsystem.db.entity.OrderDetail;
 import com.loinq.cafemngsystem.db.entity.enum1.Size;
 import com.loinq.cafemngsystem.db.entity.enum1.Topping;
 import com.loinq.cafemngsystem.db.viewModel.OrderDetailViewModel;
-import com.loinq.cafemngsystem.dto.DrinkDto;
-import com.loinq.cafemngsystem.dto.OrderDto;
+import com.loinq.cafemngsystem.dbo.DrinkDto;
+import com.loinq.cafemngsystem.dbo.OrderDetailDto;
+import com.loinq.cafemngsystem.dbo.OrderDto;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DetailActivity extends AppCompatActivity {
+public class DrinkDetailActivity extends AppCompatActivity {
 
     private static final String APP_NAME = "cafemngsystem";
 
-    private OrderDetail orderDetail;
+    private OrderDetailDto orderDetailDto;
 
     private int quantity = 1;
     private double price = 0;
+    private int orderId;
 
     private ImageView imgDink;
 
@@ -69,6 +73,8 @@ public class DetailActivity extends AppCompatActivity {
         txtQuantity = findViewById(R.id.txtQuantity);
 
         gson = new Gson();
+        sharedPreferences = getSharedPreferences(APP_NAME, MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         orderDetailViewModel = new ViewModelProvider(this).get(OrderDetailViewModel.class);
     }
 
@@ -80,16 +86,55 @@ public class DetailActivity extends AppCompatActivity {
         btnAddToCart.setOnClickListener(this::onAddToCartClicked);
     }
 
-    private void onAddToCartClicked(View view) {
-        orderDetail.setQuantity(quantity);
-        long orderDetailId = orderDetailViewModel.insert(orderDetail);
-        if(orderDetailId == -1) {
-            Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
-            return;
+    private void onUpdateCartClicked(View view) {
+        orderDetailDto.setQuantity(quantity);
+        if (orderDetailDto.getQuantity() == 0) {
+            updateData();
+            orderDetailViewModel.delete(orderDetailDto);
+        } else {
+            orderDetailViewModel.update(orderDetailDto, orderId);
+            updateData();
         }
-        OrderDto orderDto = new OrderDto();
-        orderDto.setOrderDetailId((int) orderDetailId);
-        String orderDtoJson = gson.toJson(orderDto);
+        finish();
+    }
+
+    private void updateData() {
+        String orderDtoJson = sharedPreferences.getString("orderDto", null);
+        OrderDto orderDto = gson.fromJson(orderDtoJson, OrderDto.class);
+        List<OrderDetailDto> orderDetailDtos = orderDto.getOrderDetails();
+        for (int i = 0; i < orderDetailDtos.size(); i++) {
+            if (orderDetailDtos.get(i).getId() == orderDetailDto.getId()) {
+                orderDetailDtos.set(i, orderDetailDto);
+                break;
+            }
+        }
+        orderDto.setOrderDetails(orderDetailDtos);
+        orderDtoJson = gson.toJson(orderDto);
+        editor.putString("orderDto", orderDtoJson);
+        editor.apply();
+    }
+
+    private void onAddToCartClicked(View view) {
+        orderDetailDto.setQuantity(quantity);
+        OrderDetail orderDetail = new OrderDetail(
+                orderDetailDto.getQuantity(),
+                orderDetailDto.getSize(),
+                orderDetailDto.getTopping(),
+                orderDetailDto.getDrink().getId(),
+                -1
+        );
+        String orderDtoJson = sharedPreferences.getString("orderDto", null);
+        OrderDto orderDto = gson.fromJson(orderDtoJson, OrderDto.class);
+        List<OrderDetailDto> orderDetailDtos;
+        if (orderDto.getOrderDetails() == null) {
+            orderDetailDtos = new ArrayList<>();
+            orderDetailDtos.add(orderDetailDto);
+        } else {
+            orderDetailDtos = orderDto.getOrderDetails();
+            orderDetailDtos.add(orderDetailDto);
+        }
+        orderDto.setOrderDetails(orderDetailDtos);
+        orderDtoJson = gson.toJson(orderDto);
         editor.putString("orderDto", orderDtoJson);
         editor.apply();
         finish();
@@ -100,46 +145,51 @@ public class DetailActivity extends AppCompatActivity {
             quantity--;
             txtQuantity.setText(String.valueOf(quantity));
         }
-        
+        if (quantity == 0) {
+            btnMinus.setEnabled(false);
+            btnAddToCart.setEnabled(false);
+        }
+        orderDetailDto.setQuantity(quantity);
         btnAddToCart.setText("$" + calcalatePrice() + " Cart");
     }
 
     private void onPlusClicked(View view) {
         quantity++;
         txtQuantity.setText(String.valueOf(quantity));
-        
+        btnMinus.setEnabled(true);
+        btnAddToCart.setEnabled(true);
         btnAddToCart.setText("$" + calcalatePrice() + " Cart");
+        orderDetailDto.setQuantity(quantity);
     }
 
     private void onToppingChanged(RadioGroup radioGroup, int i) {
         if (i == R.id.rdoNone)
-            orderDetail.setTopping(Topping.None);
+            orderDetailDto.setTopping(Topping.None);
         if (i == R.id.rdoBoba)
-            orderDetail.setTopping(Topping.Boba);
+            orderDetailDto.setTopping(Topping.Boba);
         if (i == R.id.rdoAlmond)
-            orderDetail.setTopping(Topping.Almond);
+            orderDetailDto.setTopping(Topping.Almond);
         if (i == R.id.rdoCheese)
-            orderDetail.setTopping(Topping.Cheese);
+            orderDetailDto.setTopping(Topping.Cheese);
 
-        
         btnAddToCart.setText("$" + calcalatePrice() + " Cart");
     }
 
     private void onSizeChanged(RadioGroup radioGroup, int i) {
         if (i == R.id.rdoSmall)
-            orderDetail.setSize(Size.S);
+            orderDetailDto.setSize(Size.S);
         if (i == R.id.rdoMedium)
-            orderDetail.setSize(Size.M);
+            orderDetailDto.setSize(Size.M);
         if (i == R.id.rdoLarge)
-            orderDetail.setSize(Size.L);
+            orderDetailDto.setSize(Size.L);
 
-        
+
         btnAddToCart.setText("$" + calcalatePrice() + " Cart");
     }
 
-    private String calcalatePrice(){
+    private String calcalatePrice() {
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        String formattedNumber = decimalFormat.format((price + orderDetail.getTopping().getValue()) * quantity * orderDetail.getSize().getValue());
+        String formattedNumber = decimalFormat.format((price + orderDetailDto.getTopping().getValue()) * quantity * orderDetailDto.getSize().getValue());
         return formattedNumber;
     }
 
@@ -164,11 +214,29 @@ public class DetailActivity extends AppCompatActivity {
 
     private void receiveIntent() {
         DrinkDto drink = (DrinkDto) getIntent().getSerializableExtra("drink");
-        orderDetail = new OrderDetail(drink.getId(), quantity, Size.S, Topping.None);
-        imgDink.setImageResource(drink.getImg());
-        txtDrinkName.setText(drink.getName());
-        price = drink.getPrice();
-        txtQuantity.setText(String.valueOf(quantity));
-        btnAddToCart.setText("$" + calcalatePrice() + " Cart");
+        if (drink != null) {
+            orderDetailDto = new OrderDetailDto();
+            orderDetailDto.setDrink(drink);
+            orderDetailDto.setSize(Size.S);
+            orderDetailDto.setTopping(Topping.None);
+            orderDetailDto.setQuantity(1);
+            imgDink.setImageResource(drink.getImg());
+            txtDrinkName.setText(drink.getName());
+            price = drink.getPrice();
+            txtQuantity.setText(String.valueOf(quantity));
+            btnAddToCart.setText("$" + calcalatePrice() + " Cart");
+        } else {
+            orderDetailDto = (OrderDetailDto) getIntent().getSerializableExtra("orderDetailDto");
+            orderId = getIntent().getIntExtra("orderId", -1);
+
+            imgDink.setImageResource(orderDetailDto.getDrink().getImg());
+            txtDrinkName.setText(orderDetailDto.getDrink().getName());
+            txtQuantity.setText(String.valueOf(orderDetailDto.getQuantity()));
+            price = orderDetailDto.getDrink().getPrice();
+            quantity = orderDetailDto.getQuantity();
+            btnAddToCart.setOnClickListener(this::onUpdateCartClicked);
+            btnAddToCart.setText("$" + calcalatePrice() + " Cart");
+
+        }
     }
 }

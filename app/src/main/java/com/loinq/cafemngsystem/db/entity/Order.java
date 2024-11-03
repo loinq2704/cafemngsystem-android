@@ -1,8 +1,8 @@
 package com.loinq.cafemngsystem.db.entity;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import com.loinq.cafemngsystem.db.entity.enum1.OrderStatus;
@@ -11,11 +11,16 @@ import com.loinq.cafemngsystem.db.helper.OrderStatusConverter;
 
 import java.util.Date;
 
-@Entity(tableName = "order_table")
+@Entity(tableName = "order_table",
+        foreignKeys = {
+        @ForeignKey(entity = User.class,
+                parentColumns = "id",
+                childColumns = "user",
+                onDelete = ForeignKey.CASCADE)
+        })
 public class Order {
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private int orderDetailId; // Foreign key reference
     @TypeConverters(DateConverter.class)
     private Date date;
     private int user; // User identifier
@@ -25,8 +30,7 @@ public class Order {
     @TypeConverters(OrderStatusConverter.class)
     private OrderStatus orderStatus;
 
-    public Order(int orderDetailId, Date date, int user, String address, String phone, String note, OrderStatus orderStatus) {
-        this.orderDetailId = orderDetailId;
+    public Order(Date date, int user, String address, String phone, String note, OrderStatus orderStatus) {
         this.date = date;
         this.user = user;
         this.address = address;
@@ -41,14 +45,6 @@ public class Order {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getOrderDetailId() {
-        return orderDetailId;
-    }
-
-    public void setOrderDetailId(int orderDetailId) {
-        this.orderDetailId = orderDetailId;
     }
 
     public Date getDate() {

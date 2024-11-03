@@ -1,6 +1,5 @@
 package com.loinq.cafemngsystem.adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,19 +9,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.loinq.cafemngsystem.DetailActivity;
+import com.loinq.cafemngsystem.DrinkDetailActivity;
 import com.loinq.cafemngsystem.R;
-import com.loinq.cafemngsystem.dto.DrinkDto;
+import com.loinq.cafemngsystem.dbo.DrinkDto;
 
 import java.util.List;
 
 public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> {
 
     private List<DrinkDto> drinkList;
-    private Context context;
 
-    public DrinkAdapter(Context context, List<DrinkDto> drinkList) {
-        this.context = context;
+    public DrinkAdapter(List<DrinkDto> drinkList) {
         this.drinkList = drinkList;
     }
 
@@ -62,9 +59,9 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
         private void onClickItem(View view) {
             DrinkDto drink = drinkList.get(getAdapterPosition());
             if (drink == null) return;
-            Intent intent = new Intent(view.getContext(), DetailActivity.class);
+            Intent intent = new Intent(view.getContext(), DrinkDetailActivity.class);
             intent.putExtra("drink", drink);
-            context.startActivity(intent);
+            view.getContext().startActivity(intent);
         }
 
         public ViewHolder(@NonNull View itemView) {

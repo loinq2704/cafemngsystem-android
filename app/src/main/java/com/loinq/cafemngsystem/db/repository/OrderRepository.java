@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.loinq.cafemngsystem.db.MyRoomDatabase;
 import com.loinq.cafemngsystem.db.dao.OrderDao;
+import com.loinq.cafemngsystem.db.dto.OrderWithUserWithOrderDetail;
 import com.loinq.cafemngsystem.db.entity.Order;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class OrderRepository {
         });
     }
 
-    public LiveData<Order> getOrderById(int orderId) {
-        return mOrderDao.getOrderById(orderId);
+    public LiveData<List<OrderWithUserWithOrderDetail>> getOrderByUser(int userId) {
+        return mOrderDao.getOrderByUser(userId);
     }
 }

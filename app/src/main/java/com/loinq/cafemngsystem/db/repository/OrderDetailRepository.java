@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.loinq.cafemngsystem.db.MyRoomDatabase;
 import com.loinq.cafemngsystem.db.dao.OrderDetailDao;
+import com.loinq.cafemngsystem.db.dto.OrderDetailWithDrink;
 import com.loinq.cafemngsystem.db.entity.OrderDetail;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class OrderDetailRepository {
         mOrderDetailDao = db.orderDetailDao();
     }
 
-    public LiveData<List<OrderDetail>> getAllOrderDetails() {
+    public LiveData<List<OrderDetailWithDrink>> getAllOrderDetails() {
         return mOrderDetailDao.getAllOrderDetails();
     }
 
@@ -40,7 +41,15 @@ public class OrderDetailRepository {
         return rowId;
     }
 
-    public LiveData<OrderDetail> getOrderDetailById(int detailId) {
+    public void update(OrderDetail orderDetail) {
+        MyRoomDatabase.databaseWriteExecutor.execute(() -> mOrderDetailDao.update(orderDetail));
+    }
+
+    public void delete(int orderDetail) {
+        MyRoomDatabase.databaseWriteExecutor.execute(() -> mOrderDetailDao.delete(orderDetail));
+    }
+
+    public LiveData<OrderDetailWithDrink> getOrderDetailById(int detailId) {
         return mOrderDetailDao.getOrderDetailById(detailId);
     }
 }

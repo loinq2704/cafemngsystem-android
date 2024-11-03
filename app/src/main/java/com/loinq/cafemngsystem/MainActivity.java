@@ -1,5 +1,6 @@
 package com.loinq.cafemngsystem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,13 +13,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.loinq.cafemngsystem.adapter.DrinkAdapter;
 import com.loinq.cafemngsystem.db.entity.Drink;
 import com.loinq.cafemngsystem.db.viewModel.DrinkViewModel;
-import com.loinq.cafemngsystem.dto.DrinkDto;
+import com.loinq.cafemngsystem.dbo.DrinkDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,11 +52,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.history) {
-
+            Intent intent = new Intent(MainActivity.this, OrderHistoryActivity.class);
+            startActivity(intent);
         }else if (item.getItemId() == R.id.menu) {
 
         }else if (item.getItemId() == R.id.cart) {
-
+            Intent intent = new Intent(MainActivity.this, CartActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 DrinkDto drinkDto = new DrinkDto(drink);
                 drinkList.add(drinkDto);
             }
-            DrinkAdapter adapter = new DrinkAdapter(this, drinkList);
+            DrinkAdapter adapter = new DrinkAdapter(drinkList);
             rcvDrinks.setAdapter(adapter);
             rcvDrinks.setLayoutManager(new GridLayoutManager(this, 2));
         });

@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.loinq.cafemngsystem.db.entity.enum1.Role;
 import com.loinq.cafemngsystem.db.entity.User;
 import com.loinq.cafemngsystem.db.viewModel.UserViewModel;
-import com.loinq.cafemngsystem.dto.UserDto;
+import com.loinq.cafemngsystem.dbo.UserDto;
 
 public class RegisterActivity extends AppCompatActivity {
 
