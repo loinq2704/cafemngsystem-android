@@ -13,17 +13,23 @@
         android:theme="@style/Theme.CafeMngSystem"
         tools:targetApi="31">
         <activity
-            android:name=".admin.AdminListOrderActivity"
-            android:parentActivityName=".admin.AdminActivity"
+            android:name=".admin.EditOrderStatusActivity"
             android:exported="false" />
+        <activity
+            android:name=".admin.CreateDrinkActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminListOrderActivity"
+            android:exported="false"
+            android:parentActivityName=".admin.AdminActivity" />
         <activity
             android:name=".admin.AdminListDrinkActivity"
-            android:parentActivityName=".admin.AdminActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".admin.AdminActivity" />
         <activity
             android:name=".admin.AdminListUserActivity"
-            android:parentActivityName=".admin.AdminActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".admin.AdminActivity" />
         <activity
             android:name=".admin.AdminActivity"
             android:exported="false" />

@@ -1,6 +1,9 @@
 package com.loinq.cafemngsystem.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loinq.cafemngsystem.R;
 import com.loinq.cafemngsystem.adapter.admin.AdminDrinkAdapter;
 import com.loinq.cafemngsystem.db.entity.Drink;
@@ -23,16 +27,25 @@ import java.util.List;
 public class AdminListDrinkActivity extends AppCompatActivity {
 
     private RecyclerView rcvDrink;
+    private FloatingActionButton btnAddDrink;
 
     private DrinkViewModel mDrinkViewModel;
 
     private void bindingView() {
         rcvDrink = findViewById(R.id.recyclerViewDrinks);
+        btnAddDrink = findViewById(R.id.fabAddDrink);
 
         mDrinkViewModel = new ViewModelProvider(this).get(DrinkViewModel.class);
+    };
+
+    private void bindingAction(){
+        btnAddDrink.setOnClickListener(this::onAddDrinkClick);
     }
 
-    ;
+    private void onAddDrinkClick(View view) {
+        Intent intent = new Intent(this, CreateDrinkActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +60,7 @@ public class AdminListDrinkActivity extends AppCompatActivity {
             return insets;
         });
         bindingView();
+        bindingAction();
         initRcvDrink();
     }
 
