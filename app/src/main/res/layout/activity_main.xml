@@ -7,37 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".customer.CustomerActivity">
 
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/rb_foods"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@null"
-            android:padding="8dp"
-            android:text="Foods"
-            android:textColor="@color/black"
-            android:checked="false"/>
-
-        <RadioButton
-            android:id="@+id/rb_drinks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@null"
-            android:padding="8dp"
-            android:text="Drinks"
-            android:textColor="@color/black"
-            android:checked="false"/>
-    </RadioGroup>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvDrinks"
         android:layout_width="match_parent"
         android:layout_height="489dp"
-        android:layout_marginTop="200dp"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="1dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
