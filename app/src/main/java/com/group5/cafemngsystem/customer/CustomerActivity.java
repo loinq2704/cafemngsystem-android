@@ -1,6 +1,7 @@
 package com.group5.cafemngsystem.customer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,10 +56,13 @@ public class CustomerActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.history) {
             Intent intent = new Intent(CustomerActivity.this, OrderHistoryActivity.class);
             startActivity(intent);
-        }else if (item.getItemId() == R.id.logout_customer) {
-
-        }else if (item.getItemId() == R.id.cart) {
+        } else if (item.getItemId() == R.id.logout_customer) {
+            finish();
+        } else if (item.getItemId() == R.id.cart) {
             Intent intent = new Intent(CustomerActivity.this, CartActivity.class);
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.profile) {
+            Intent intent = new Intent(CustomerActivity.this, ProfileActivity.class);
             startActivity(intent);
         }
 

@@ -31,4 +31,16 @@ public class DrinkRepository {
     public LiveData<Drink> getDrinkById(int drinkId) {
         return mDrinkDao.getDrinkById(drinkId);
     }
+
+    public void delete(Drink drink) {
+        MyRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mDrinkDao.delete(drink);
+        });
+    }
+
+    public void update(Drink drink) {
+        MyRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mDrinkDao.update(drink);
+        });
+    }
 }

@@ -41,4 +41,10 @@ public class UserRepository {
     public LiveData<User> getByUsername(String username) {
         return mUserDao.getByUsername(username);
     }
+
+    public void update(User user) {
+        MyRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mUserDao.update(user);
+        });
+    }
 }

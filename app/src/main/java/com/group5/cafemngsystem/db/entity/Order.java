@@ -9,6 +9,7 @@ import com.group5.cafemngsystem.db.entity.enum1.OrderStatus;
 import com.group5.cafemngsystem.db.helper.DateConverter;
 import com.group5.cafemngsystem.db.helper.OrderStatusConverter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity(tableName = "order_table",
@@ -18,7 +19,7 @@ import java.util.Date;
                 childColumns = "user",
                 onDelete = ForeignKey.CASCADE)
         })
-public class Order {
+public class Order implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
     @TypeConverters(DateConverter.class)
