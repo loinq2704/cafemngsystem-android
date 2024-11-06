@@ -53,8 +53,16 @@ public class RegisterActivity extends AppCompatActivity {
         String username = edtUsername.getText().toString();
         String password = edtPwd.getText().toString();
         String fullname = edtFullname.getText().toString();
+        if(username.isEmpty()) {
+            Toast.makeText(this, "Please enter username.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if(password.length() < 6) {
             Toast.makeText(this, "Password must be at least 6 character.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(fullname.isEmpty()) {
+            Toast.makeText(this, "Please enter your full Name.", Toast.LENGTH_SHORT).show();
             return;
         }
         User user = new User(username, password, fullname, Role.USER);

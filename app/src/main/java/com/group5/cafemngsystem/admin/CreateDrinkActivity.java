@@ -100,9 +100,17 @@ public class CreateDrinkActivity extends AppCompatActivity {
         String name = edtDrinkName.getText().toString();
         String priceString = edtPrice.getText().toString();
         Category category = Category.valueOf(spinnerCategory.getSelectedItem().toString());
+        if (name.isEmpty() || name.length() > 50) {
+            Toast.makeText(this, "Please enter correct drink name.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         // Validate price
         if (!isPriceValid(priceString)) {
             Toast.makeText(this, "Please enter a valid price.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (imgRsrc == 0) {
+            Toast.makeText(this, "Please choose drink image.", Toast.LENGTH_SHORT).show();
             return;
         }
         double price = Double.parseDouble(priceString);
