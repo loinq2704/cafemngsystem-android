@@ -96,7 +96,7 @@ public class AdminDrinkAdapter extends RecyclerView.Adapter<AdminDrinkAdapter.Vi
         public void setData(DrinkDto drink) {
             imgDrink.setImageResource(drink.getImg());
             txtName.setText(drink.getName());
-            txtPrice.setText(String.valueOf(drink.getPrice()));
+            txtPrice.setText(String.valueOf(drink.getPrice()) + " $");
         }
     }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,6 +61,11 @@ public class CheckoutActivity extends AppCompatActivity {
         String address = txtAddress.getText().toString();
         String phone = txtPhone.getText().toString();
         String note = txtNote.getText().toString();
+        // Validate phone number
+        if (!isPhoneValid(phone)) {
+            Toast.makeText(this, "Please enter a valid phone number.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Order order = new Order(new Date(), userId, address, phone, note, OrderStatus.PENDING);
         mOrderViewModel.update(order);
         orderDto.setOrderDetails(null);
@@ -68,6 +74,10 @@ public class CheckoutActivity extends AppCompatActivity {
         Intent intent = new Intent(this, OrderHistoryActivity.class);
         startActivity(intent);
     };
+    private boolean isPhoneValid(String phone) {
+        // Check if phone number is not empty and consists only of digits
+        return phone != null && phone.matches("\\d{10,15}"); // Adjust the regex as per your requirements
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

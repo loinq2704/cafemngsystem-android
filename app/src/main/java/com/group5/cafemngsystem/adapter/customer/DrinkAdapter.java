@@ -76,7 +76,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
         public void setData(DrinkDto drink) {
             imgDrink.setImageResource(drink.getImg());
             txtName.setText(drink.getName());
-            txtPrice.setText(String.valueOf(drink.getPrice()));
+            txtPrice.setText(String.valueOf(drink.getPrice())+" $");
         }
     }
 }

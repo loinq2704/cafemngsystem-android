@@ -98,8 +98,14 @@ public class CreateDrinkActivity extends AppCompatActivity {
 
     private void setOnClickSave(View view) {
         String name = edtDrinkName.getText().toString();
-        double price = Double.parseDouble(edtPrice.getText().toString());
+        String priceString = edtPrice.getText().toString();
         Category category = Category.valueOf(spinnerCategory.getSelectedItem().toString());
+        // Validate price
+        if (!isPriceValid(priceString)) {
+            Toast.makeText(this, "Please enter a valid price.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        double price = Double.parseDouble(priceString);
         Drink drink = new Drink(name, imgRsrc, price, category);
         if (create)
             mDrinkViewModel.insert(drink);
@@ -110,7 +116,14 @@ public class CreateDrinkActivity extends AppCompatActivity {
         Toast.makeText(this, create ? "Drink added" : "Drink updated", Toast.LENGTH_SHORT).show();
         finish();
     }
-
+    private boolean isPriceValid(String priceString) {
+        try {
+            double price = Double.parseDouble(priceString);
+            return price > 0;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
     private void setOnClickImgDrink(View view) {
         final int[] imageResources = {
                 R.mipmap.drink1,

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,6 +50,10 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void onBtnCheckoutClick(View view) {
+        if(orderDto == null) {
+            Toast.makeText(this, "Please add drinks to your cart", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(this, CheckoutActivity.class);
         startActivity(intent);
     }
@@ -58,7 +63,7 @@ public class CartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        getSupportActionBar().setTitle("Checkout");
+        getSupportActionBar().setTitle("Cart");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_cart);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

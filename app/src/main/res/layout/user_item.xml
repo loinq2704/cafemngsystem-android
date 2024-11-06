@@ -8,39 +8,47 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/txtListUserId"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:paddingStart="4dp"
+            android:background="@drawable/table_cell_background"
             android:text="Id" />
 
         <TextView
             android:id="@+id/txtUserUsername"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
+            android:paddingStart="4dp"
+            android:background="@drawable/table_cell_background"
             android:text="Username" />
 
         <TextView
             android:id="@+id/txtUserFname"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="3"
+            android:paddingStart="4dp"
+            android:background="@drawable/table_cell_background"
             android:text="FullName" />
 
         <TextView
             android:id="@+id/txtUserRole"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
+            android:paddingStart="4dp"
+            android:background="@drawable/table_cell_background"
             android:text="Role" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
