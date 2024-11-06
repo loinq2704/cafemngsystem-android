@@ -20,7 +20,9 @@
             android:exported="false" />
         <activity
             android:name=".admin.CreateDrinkActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".admin.AdminListDrinkActivity"
+            />
         <activity
             android:name=".admin.AdminListOrderActivity"
             android:exported="false"
