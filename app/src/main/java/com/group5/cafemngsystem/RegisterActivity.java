@@ -1,6 +1,7 @@
 package com.group5.cafemngsystem;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,19 +14,23 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.gson.Gson;
 import com.group5.cafemngsystem.customer.CustomerActivity;
 import com.group5.cafemngsystem.db.entity.enum1.Role;
 import com.group5.cafemngsystem.db.entity.User;
 import com.group5.cafemngsystem.db.viewModel.UserViewModel;
+import com.group5.cafemngsystem.dbo.OrderDto;
 import com.group5.cafemngsystem.dbo.UserDto;
 
 public class RegisterActivity extends AppCompatActivity {
-
+    private static final String APP_NAME = "cafemngsystem";
     private EditText edtUsername;
     private EditText edtPwd;
     private EditText edtFullname;
     private Button btnRegister;
-
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
+    private Gson gson;
     private UserViewModel mUserViewModel;
 
     private void bindingView(){
@@ -33,7 +38,9 @@ public class RegisterActivity extends AppCompatActivity {
         edtPwd = findViewById(R.id.edtPwd);
         edtFullname = findViewById(R.id.edtFName);
         btnRegister = findViewById(R.id.btnRegister);
-
+        mSharedPreferences = getSharedPreferences(APP_NAME, MODE_PRIVATE);
+        mEditor = mSharedPreferences.edit();
+        gson = new Gson();
         mUserViewModel = new ViewModelProvider(this).get(UserViewModel.class);
     };
 
@@ -48,6 +55,16 @@ public class RegisterActivity extends AppCompatActivity {
         User user = new User(username, password, fullname, Role.USER);
         mUserViewModel.insert(user);
         Intent intent = new Intent(RegisterActivity.this, CustomerActivity.class);
+        String orderJson = mSharedPreferences.getString("orderDto", null);
+        OrderDto orderDto = gson.fromJson(orderJson, OrderDto.class);
+        if (orderDto == null) {
+            orderDto = new OrderDto();
+        }
+        UserDto userDto = new UserDto(user);
+        orderDto.setUser(userDto);
+        orderJson = gson.toJson(orderDto);
+        mEditor.putString("orderDto", orderJson);
+        mEditor.apply();
         startActivity(intent);
     }
 
