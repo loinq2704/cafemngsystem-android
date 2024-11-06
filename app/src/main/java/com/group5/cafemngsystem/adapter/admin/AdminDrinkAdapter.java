@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -77,6 +78,7 @@ public class AdminDrinkAdapter extends RecyclerView.Adapter<AdminDrinkAdapter.Vi
             DrinkDto drink = drinkList.get(getAdapterPosition());
             mDrinkViewModel.delete(drink);
             notifyItemRemoved(getAdapterPosition());
+            Toast.makeText(view.getContext(), "Delete Successfully", Toast.LENGTH_SHORT).show();
         }
 
         private void onClickItem(View view) {
@@ -96,7 +98,7 @@ public class AdminDrinkAdapter extends RecyclerView.Adapter<AdminDrinkAdapter.Vi
         public void setData(DrinkDto drink) {
             imgDrink.setImageResource(drink.getImg());
             txtName.setText(drink.getName());
-            txtPrice.setText(String.valueOf(drink.getPrice()) + " $");
+            txtPrice.setText("$"+ String.valueOf(drink.getPrice()));
         }
     }
 }
